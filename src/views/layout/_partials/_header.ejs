@@ -1,0 +1,63 @@
+<% if( true ) { %>
+     <nav class="!bg-[#8cbae4] flex">
+          <div class="w-[250px] flex items-center justify-center z-10">
+               <p class="text-[#333e89] text-xl font-bold mt-3 ml-5">Aplikasi Enkripsi File Gambar dan Video</p>
+          </div>
+          <div class="flex items-center z-10 justify-between w-full ml-5 px-5">
+               <div class="flex gap-5 items-center">
+                    <button class="flex flex-col gap-2" id="menuButton">
+                         <!-- <span class="block w-10 border-2 border-[#c9c9c9]"></span> 
+                         <span class="block w-10 border-2 border-[#c9c9c9]"></span> 
+                         <span class="block w-10 border-2 border-[#c9c9c9]"></span>  -->
+                     </button>
+                     <!-- <input class="!border-none !bg-[#c9c9c9] !p-1 !pl-5 !w-60 !m-0 !rounded-full" type="text" placeholder="Search"> -->
+               </div>
+               <div>
+                    <button class="flex items-center" id="profileButton">
+                         <img src="/img/profile-user.png" alt="Profile Icon" class="w-10">
+                    </button>
+                    <div class="absolute bg-gray-400 p-5 mt-3 right-3 hidden flex-col gap-3" id="profileMenu">
+                         <div class="flex gap-3 items-center font-medium text-black text-lg">
+                              <img src="/img/profile-user.png" alt="Home Icon" class="w-7">
+                              <div>
+                                   <p><%= username %></p>
+                                   <p class="text-lg font-normal"><%= email %></p>
+                              </div>
+                         </div>
+                         <a href="/logout" class="flex gap-3 items-center font-medium text-black text-lg">
+                              <img src="/img/logout.png" alt="Home Icon" class="w-7 h-7">
+                              Logout
+                         </a>
+                    </div>
+               </div>
+          </div>
+          <div class="w-[250px] flex justify-center items-center h-full absolute top-0 left-0 bottom-0 bg-[#8cbae4] transition-all" id="sidebar">
+               <ul class="flex flex-col justify-start items-start gap-10 pl-5">
+                    <li><a class="text-black text-xl font-medium flex gap-2 justify-start items-start" href="/dashboard">
+                         <img src="/img/home.png" alt="Home Icon" class="w-7">
+                         Dashboard
+                    </a></li>
+                    <li><a class="text-black text-xl font-medium flex gap-2 justify-start items-start" href="/dashboard/encrypt">
+                         <img src="/img/lock.png" alt="Home Icon" class="w-7">
+                         Encrypt File
+                    </a></li>
+                    <li><a class="text-black text-xl font-medium flex gap-2 justify-start items-start" href="/dashboard/decrypt">
+                         <img src="/img/key.png" alt="Home Icon" class="w-7">
+                         Decrypt File
+                    </a></li>
+                    <!-- <li><a class="text-black text-2xl font-bold flex gap-2 justify-center items-center" href="/dashboard/stegano">
+                         <img src="/img/key.png" alt="Home Icon" class="w-7">
+                         Stegano File
+                    </a></li> -->
+                    <li><a class="text-black text-xl font-medium flex gap-2 justify-start items-start" href="/dashboard/history-encrypt">
+                         <img src="/img/file.png" alt="Home Icon" class="w-7">
+                         History Enkripsi
+                    </a></li>
+                    <li><a class="text-black text-xl font-medium flex gap-2 justify-start items-start" href="/dashboard/history-decrypt">
+                         <img src="/img/file.png" alt="Home Icon" class="w-7">
+                         History Dekripsi
+                    </a></li>
+               </ul>
+          </div>
+     </nav>
+     <% } %>

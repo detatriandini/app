@@ -1,0 +1,116 @@
+<section class="page-encrypt flex flex-col ml-[280px] mt-10 w-9/12 gap-10">
+    <h2
+        class="text-4xl font-bold p-7 rounded-xl bg-[#8cbae4]"
+    >
+        Decrypt Watermark
+    </h2>
+    <form class="relative p-12 rounded-xl bg-[#8cbae4] flex gap-2 items-center" action="/fileStegano" method="post" enctype='multipart/form-data'>
+        <table>
+            <tr class="border-none">
+                <td>
+                    <p class="text-xl font-medium">File</p>
+                </td>
+                <td>
+                    <p id="fileName" class="text-xl"></p>
+                </td>
+            </tr>
+            <tr class="border-none">
+                <td>
+                    <p id="key" class="text-xl font-medium">Message</p>
+                </td>
+                <td>
+                    <button type="button" id="showButton" class="text-xl underline">Show Message</button>
+                    <p id="messageResult" class="text-xl" style="display: none;"><%= message %></p>
+                </td>
+            </tr>
+        </table>
+        <div class="w-full flex justify-center items-center">
+            <button type="button" id="showMediaButton" class="text-xl underline mx-auto">Show Media</button>
+            <img class="w-40 aspect-auto rounded-lg" style="display: none;" id="imageDisplay">
+            <video class="w-40 aspect-auto rounded-lg" style="display: none;" id="videoDisplay"></video>
+        </div>
+        <button
+            class="absolute top-5 right-5"
+            id="downloadButton"
+            type="button"
+        >
+            <img src="/img/download.png" alt="Download Icon" class="w-7">
+        </button>
+    </form>
+</section>
+<div
+    class="p-3 rounded-lg bg-green-500 absolute left-0 top-20 right-0 w-[400px] mx-auto text-center text-lg font-bold text-gray-50"
+    id="alertSuccess"
+    style="display: none;"
+>
+
+</div>
+<div
+    class="p-3 rounded-lg bg-red-500 absolute left-0 top-20 right-0 w-[400px] mx-auto text-center text-lg font-bold text-gray-900"
+    id="alertFailed"
+    style="display: none;"
+>
+
+</div>
+
+<script>
+    function fileChange(e){
+        const fileInput = document.getElementById("fileInput")
+        document.getElementById("fileName").value = fileInput.value.split("\\")[2].split(".")[0]
+    }
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    // const message = urlParams.get('message');
+    const success = urlParams.get('success');
+    const filename = urlParams.get('filename');
+    const messageType = urlParams.get('messageType');
+    document.getElementById("showMediaButton").addEventListener("click", () => {
+        document.getElementById("showMediaButton").style.display ="none"
+        if(filename.includes("mp4")){
+            document.getElementById("videoDisplay").src = "/file/decrypt/" + filename
+            document.getElementById("videoDisplay").style.display = "block"
+        }else{
+            document.getElementById("imageDisplay").src = "/file/decrypt/" + filename
+            document.getElementById("imageDisplay").style.display = "block"
+        }
+    })
+
+    document.getElementById("downloadButton").addEventListener("click", () => {
+        const downloadFile = async () => {
+                const responseDownload = await fetch("/download/decrypt/"+filename)
+                const blob = await responseDownload.blob()
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = filename; // specify the filename
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                console.log("test")
+            }
+            downloadFile()
+    })
+    document.getElementById("fileName").innerText = filename
+    document.getElementById("showButton").addEventListener("click", () => {
+        document.getElementById("showButton").style.display = "none"
+        document.getElementById("messageResult").style.display = "block"
+    })
+    if(success == "false"){
+        console.log(success)
+        document.getElementById("alertFailed").style.display = "block"
+        document.getElementById("alertFailed").innerHTML = messageType
+        setTimeout(() => {
+            document.getElementById("alertFailed").style.display = "none"
+        }, 2000)
+    }
+    if(success == "true"){
+        if(messageType == "Stegano"){
+            document.getElementById("alertSuccess").style.display = "block"
+            document.getElementById("alertSuccess").innerHTML = "Success getting message"
+            setTimeout(() => {
+                document.getElementById("alertSuccess").style.display = "none"
+            }, 2000)
+        }
+    }
+</script>

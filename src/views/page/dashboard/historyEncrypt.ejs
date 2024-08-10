@@ -1,0 +1,39 @@
+<section class="page-history flex flex-col ml-[280px] mt-10 w-9/12 gap-10">
+    <h2
+        class="text-4xl w-full font-bold p-7 rounded-xl bg-[#8cbae4]"
+    >
+        History File Encrypt
+    </h2>
+    <div class="bg-[#8cbae4] scrollable-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="text-center font-bold text-lg">Date</th>
+                    <th class="text-center font-bold text-lg">Encryption Filename</th>
+                    <!-- <th class="text-center font-bold text-xl">Encryption File Name</th> -->
+                    <!-- <th class="text-center font-bold text-xl">Status File</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < data.length; i++) { %>
+                    <tr class="<%= i % 2 === 0 ? 'bg-gradient-odd' : 'bg-gradient-even' %>">
+                        <td class="text-center text-lg"><%= data[i].created_at.getDate() + "/" + (data[i].created_at.getMonth()+1) + "/" + data[i].created_at.getFullYear() %></td>
+                        <td class="text-center text-lg"><%= data[i].file_original %></td>
+                        <!-- <td class="text-center text-xl"><%= data[i].file_path.split("/")[1].split(".")[0] + ".rda" %></td>
+                        <td class="text-center text-xl"><%= data[i].type === "encrypt" ? "Enkripsi" : "Dekripsi" %></td> -->
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</section>
+<style>
+    .bg-gradient-odd {
+        background: white;
+    }
+
+    .bg-gradient-even {
+        background:#8cbae4; /* contoh warna gradasi yang berbeda */
+    }
+
+</style>

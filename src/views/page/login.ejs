@@ -1,0 +1,54 @@
+<section class="flex w-full absolute top-[50%] translate-y-[-50%] justify-center">
+
+     <div
+          class="p-10 bg-black/20 rounded-xl w-[500px]"
+     >
+          <form action="/login" method="post" class="flex flex-col">
+               <p class="text-[#333e89] text-3xl font-bold text-center">LOGIN</p>
+               <div class="mt-20 flex flex-col gap-10">
+                    <% if (message != "") { %>
+                         <p class="bg-red-400 p-1 rounded-md text-center font-bold"><%= message %></p> 
+                    <% } %>
+                    <div class="flex flex-col">
+                         <input name="email" type="text" class="input-style !rounded-3xl !p-2 !pl-5 !bg-gradient-to-b from-white to-[#8cbae4]" placeholder="Email Address or Username">
+                    </div>
+                    <div class="flex flex-col">
+                         <input name="password" type="password" class="input-style !rounded-3xl !p-2 !pl-5 !bg-gradient-to-b from-white to-[#8cbae4]" placeholder="Password">
+                         <!-- <a href="/lupa-password" class="font-bold text-right">Lupa Password?</a> -->
+                    </div>
+               </div>
+               <div class="flex justify-end mt-10">
+                    <button 
+                         type="submit" 
+                         class="text-xl px-10 bg-[#8895e4] text-center rounded-2xl py-2 font-bold text-white border-[#7b87e2] border"
+                    >
+                         Login
+                    </button>
+               </div>
+          </form>
+     </div>
+ 
+ </section>
+
+ <div
+    class="p-3 rounded-lg bg-red-500 absolute left-0 top-20 right-0 w-[400px] mx-auto text-center text-lg font-bold text-gray-900"
+    id="alertFailed"
+    style="display: none;"
+>
+
+</div>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const success = urlParams.get('success');
+    const message = urlParams.get('message');
+    if(success == "false"){
+        console.log(success)
+        document.getElementById("alertFailed").style.display = "block"
+        document.getElementById("alertFailed").innerHTML = message
+        setTimeout(() => {
+            document.getElementById("alertFailed").style.display = "none"
+        }, 2000)
+    }
+</script>

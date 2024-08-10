@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('_partials/_head.ejs'); %>
+</head>
+    <body>
+        <% if (dashboard) { %>
+            <header>
+                    <%- include('_partials/_header.ejs'); %>
+            </header>
+        <% } %>
+        
+        <% if (!dashboard) { %>
+            <main class="from-[#8cbae4] to-white bg-gradient-to-b">
+                <%- body %>
+            </main>
+        <% } %>
+
+        <% if (dashboard) { %>
+            <main class="bg-[#4986bd]">
+                <%- body %>
+            </main>
+        <% } %>
+
+        <script src="/js/materialize.min.js"></script>
+        <script src="/scripts/script.js"></script>
+    </body>
+</html>

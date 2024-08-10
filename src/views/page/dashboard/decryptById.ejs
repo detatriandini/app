@@ -1,0 +1,72 @@
+<section class="page-decrypt flex flex-col mt-10 w-9/12 ml-[280px] gap-10">
+    <h2
+        class="text-4xl font-bold p-7 rounded-xl bg-[#8cbae4]"
+    >
+        Decrypt File
+    </h2>
+    <div class="p-7 rounded-xl bg-[#8cbae4] flex flex-col">
+        <form action="/decrypt/<%= data.id %>" method="post" >
+            <table>
+                <tr class="border-none">
+                    <td>
+                        <p class="text-xl font-medium">Date</p>
+                    </td>
+                    <td>
+                        <p class="text-xl"><%= data.tanggal %></p>
+                    </td>
+                </tr>
+                <tr class="border-none">
+                    <td>
+                        <p class="text-xl font-medium">File</p>
+                    </td>
+                    <td>
+                        <p class="text-xl"><%= data.nama %></p>
+                    </td>
+                </tr>
+                <tr class="border-none">
+                    <td>
+                        <p class="text-xl font-medium">File Size</p>
+                    </td>
+                    <td>
+                        <p class="text-xl"><%= data.size/1000 %> KB</p>
+                    </td>
+                </tr>
+                <tr class="border-none">
+                    <td>
+                        <p style='display: <%= data.encryptionType == "Stegano" ? "none" : "block" %>;' class="text-xl font-medium">Password</p>
+                    </td>
+                    <td>
+                        <input style='display: <%= data.encryptionType == "Stegano" ? "none" : "block" %>;' name="password" class="!border-none !bg-[#4986bd] !p-1 !pl-5 !m-0 !w-full !box-border !rounded-xl !text-xl" type="password">
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" 
+            class="text-xl px-10 bg-[#8895e4] text-center rounded-2xl py-2 font-bold text-white border-[#7b87e2] border mt-10 w-full">
+                Decrypt
+            </button>
+        </form>
+    </div>
+</section>
+
+<div
+    class="p-3 rounded-lg bg-red-500 absolute left-0 top-20 right-0 w-[400px] mx-auto text-center text-lg font-bold text-gray-900"
+    id="alertFailed"
+    style="display: none;"
+>
+
+</div>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const success = urlParams.get('success');
+    const message = urlParams.get('message');
+    if(success == "false"){
+        console.log(success)
+        document.getElementById("alertFailed").style.display = "block"
+        document.getElementById("alertFailed").innerHTML = message
+        setTimeout(() => {
+            document.getElementById("alertFailed").style.display = "none"
+        }, 2000)
+    }
+</script>

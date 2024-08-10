@@ -1,0 +1,103 @@
+<section class="page-dashboard flex flex-col w-9/12 ml-[280px] mt-10">
+    <div
+        class="scrollable-wrapper"
+    >
+        <table
+            class="bg-[#8cbae4]"
+        >
+            <thead class="bg-[#8cbae4]">
+                <tr>
+                    <th class="text-center font-bold text-lg">Date</th>
+                    <th class="text-center font-bold text-lg max-column">Filename</th>
+                    <th class="text-center font-bold text-lg max-column">Encryption File Name</th>
+                    <th class="text-center font-bold text-lg">File Size</th>
+                    <th class="text-center font-bold text-lg">Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < data.length; i++) { %>
+                    <tr class="<%= i % 2 === 0 ? 'bg-gradient-odd' : 'bg-gradient-even' %>">
+                        <td class="text-center text-lg"><%= data[i].created_at.getDate() + "/" + (data[i].created_at.getMonth()+1) + "/" + data[i].created_at.getFullYear() %></td>
+                        <td class="text-center text-lg max-column"><%= data[i].file_original %></td>
+                        <td class="text-center text-lg max-column"><%= data[i].file_encrypted %></td>
+                        <td class="text-center text-lg"><%= data[i].file_size/1000 %> KB</td>
+                        <td class="text-center flex flex-col gap-2">
+                            <a href="/dashboard/decrypt/<%= data[i].id %>" class="text-lg bg-[#303e8c] rounded-md text-center font-bold p-2 text-white">Decrypt</a>
+                            <!-- <a href="/dashboard/update/<%= data[i].id %>" class="text-xl bg-[#303e8c] rounded-md text-center font-bold p-2 text-white">Update</a> -->
+                            <a href="/delete/<%= data[i].id %>" class="text-lg bg-[#303e8c] rounded-md text-center font-bold p-2 text-white">Delete</a>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div
+    class="p-3 rounded-lg bg-green-500 absolute left-0 top-20 right-0 w-[400px] mx-auto text-center text-lg font-bold text-gray-50"
+    id="alertSuccess"
+    style="display: none;"
+>
+
+</div>
+<div
+    class="p-3 rounded-lg bg-red-500 absolute left-0 top-20 right-0 w-[400px] mx-auto text-center text-lg font-bold text-gray-900"
+    id="alertFailed"
+    style="display: none;"
+>
+
+</div>
+<style>
+    .bg-gradient-odd {
+        background: white;
+    }
+
+    .bg-gradient-even {
+        background: #8cbae4; /* contoh warna gradasi yang berbeda */
+    }
+</style>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const success = urlParams.get('success');
+    const messageType = urlParams.get('message');
+    console.log(success)
+    if(success == "false"){
+        document.getElementById("alertFailed").style.display = "block"
+        document.getElementById("alertFailed").innerHTML = messageType
+        setTimeout(() => {
+            document.getElementById("alertFailed").style.display = "none"
+        }, 2000)
+    }
+    if(success == "true"){
+        if(messageType == "Update"){
+            document.getElementById("alertSuccess").style.display = "block"
+            document.getElementById("alertSuccess").innerHTML = "File update success"
+            setTimeout(() => {
+                document.getElementById("alertSuccess").style.display = "none"
+            }, 2000)
+        }
+        if(messageType == "Dekripsi"){
+            document.getElementById("alertSuccess").style.display = "block"
+            document.getElementById("alertSuccess").innerHTML = "Decryption success"
+            const downloadFile = async () => {
+                const responseDownload = await fetch("/download/decrypt")
+                const blob = await responseDownload.blob()
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = urlParams.get('filename'); // specify the filename
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                console.log("test")
+            }
+            downloadFile()
+            setTimeout(() => {
+                document.getElementById("alertSuccess").style.display = "none"
+            }, 2000)
+        }
+    }
+</script>

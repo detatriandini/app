@@ -1,0 +1,56 @@
+<section class="page-decrypt flex flex-col mt-10 w-9/12 ml-[280px] gap-10">
+    <h2
+        class="text-4xl font-bold p-7 rounded-xl bg-[#8cbae4]"
+    >
+        Update File
+    </h2>
+    <div class="p-7 rounded-xl bg-[#8cbae4] flex flex-col">
+        <form action="/update/<%= data.id %>" method="post" >
+            <div
+                class="flex gap-7"
+            >
+                <div
+                    class="flex flex-col gap-10"
+                >
+                    <p class="text-2xl font-bold">Tanggal</p>
+                    <p class="text-2xl font-bold">File</p>
+                    <p class="text-2xl font-bold">Ukuran File</p>
+                </div>
+                <div
+                    class="flex flex-col gap-10"
+                >
+                    <p class="text-2xl"><%= data.tanggal %></p>
+                    <p class="text-2xl"><%= data.nama %></p>
+                    <p class="text-2xl"><%= data.size/1000 %> KB</p>
+                </div>
+            </div>
+            <button type="submit" 
+            class="text-xl px-10 bg-[#8895e4] text-center rounded-2xl py-2 font-bold text-white border-[#7b87e2] border mt-10 w-full">
+                Update
+            </button>
+        </form>
+    </div>
+</section>
+
+<div
+    class="p-3 rounded-lg bg-red-500 absolute left-0 top-20 right-0 w-[400px] mx-auto text-center text-lg font-bold text-gray-900"
+    id="alertFailed"
+    style="display: none;"
+>
+
+</div>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const success = urlParams.get('success');
+    const message = urlParams.get('message');
+    if(success == "false"){
+        console.log(success)
+        document.getElementById("alertFailed").style.display = "block"
+        document.getElementById("alertFailed").innerHTML = message
+        setTimeout(() => {
+            document.getElementById("alertFailed").style.display = "none"
+        }, 2000)
+    }
+</script>

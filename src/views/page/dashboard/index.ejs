@@ -1,0 +1,71 @@
+<section class="page-dashboard flex flex-col w-9/12 ml-[280px] mt-10">
+    <div
+        class="scrollable-wrapper"
+    >
+        <table
+            class="bg-[#8cbae4]"
+        >
+            <thead>
+                <tr>
+                    <!-- <th class="text-center font-bold text-xl">Username</th> -->
+                    <th class="text-center font-bold text-lg">Date</th>
+                    <th class="text-center font-bold text-lg">File Name</th>
+                    <th class="text-center font-bold text-lg">Encryption File Name</th>
+                    <!-- <th class="text-center font-bold text-xl">Message</th> -->
+                    <!-- <th class="text-center font-bold text-xl">Status File</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < data.length; i++) { %>
+                    <tr class="<%= i % 2 === 0 ? 'even-row' : 'odd-row' %>">
+                        <!-- <td class="text-center text-xl"><%= username %></td> -->
+                        <td class="text-center text-lg"><%= data[i].created_at.getDate() + "/" + (data[i].created_at.getMonth()+1) + "/" + data[i].created_at.getFullYear() %></td>
+                        <td class="text-center text-lg"><%= data[i].file_original %></td>
+                        <td class="text-center text-lg"><%= data[i].file_encrypted %></td>
+                        <!-- <td class="text-center text-xl"><%= data[i].encryption_type == "Stegano" && data[i].type === "decrypt" ? data[i].encryption_key : "" %></td> -->
+                        <!-- <td class="text-center text-xl"><%= data[i].type === "encrypt" ? "Enkripsi" : "Dekripsi" %></td> -->
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div
+    class="p-3 rounded-lg bg-green-500 absolute left-0 top-20 right-0 w-[400px] mx-auto text-center text-lg font-bold text-gray-50"
+    id="alertSuccess"
+    style="display: none;"
+>
+</div>
+
+<style>
+    .even-row {
+        background-color: white;
+    }
+    .odd-row {
+        background-color:  #8cbae4;
+    }
+</style>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const success = urlParams.get('success');
+    const messageType = urlParams.get('message');
+    if(success){
+        if(messageType == "Enkripsi"){
+            document.getElementById("alertSuccess").style.display = "block"
+            document.getElementById("alertSuccess").innerHTML = "File encryption success"
+            setTimeout(() => {
+                document.getElementById("alertSuccess").style.display = "none"
+            }, 2000)
+        }
+        if(messageType == "Delete"){
+            document.getElementById("alertSuccess").style.display = "block"
+            document.getElementById("alertSuccess").innerHTML = "File delete success"
+            setTimeout(() => {
+                document.getElementById("alertSuccess").style.display = "none"
+            }, 2000)
+        }
+    }
+</script>
